@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:barcode_scan/barcode_scan.dart';
+
 import 'package:qr_maps/pages/direccion_page.dart';
 import 'package:qr_maps/pages/mapa_page.dart';
 
@@ -14,9 +17,46 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Center(
+         child: Text('QR Scan'),
+        ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: (){}
+          ),
+        ],
+      ),
       body: _callPage(currentpage),
-      bottomNavigationBar: _creaBottomNavigator(),
+      bottomNavigationBar: _crearBottomNavigator(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        child: Icon( Icons.filter_center_focus ),
+        onPressed: _scanQR,
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
     );
+  }
+
+  _scanQR() async {
+    //https://www.youtube.com/watch?v=7gX_mRmCmNE
+    //geo:46.9342049662819,13.511148543749965
+
+    var futureString;
+
+    try{
+      futureString = await BarcodeScanner.scan();
+    } catch (e){
+      futureString = e.toString();
+    }
+
+    print('Future String: ${futureString.rawContent}');
+
+    if ( futureString != null) {
+      print('Tenemos informacion');
+    }
+
   }
 
   Widget _callPage( int indexPage) {
@@ -30,7 +70,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _creaBottomNavigator() {
+  Widget _crearBottomNavigator() {
 
     return BottomNavigationBar(
         currentIndex: currentpage,
