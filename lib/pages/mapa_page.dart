@@ -1,13 +1,17 @@
 
 import 'package:flutter/material.dart';
+import 'package:qr_maps/bloc/scans_bloc.dart';
+import 'package:qr_maps/models/scan_model.dart';
 
-import 'package:qr_maps/providers/db_provider.dart';
 
 class MapaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<ScanModel>>(
-        future: DBProvider.db.getTodosScans(),
+
+    final scansBloc = new ScansBloc();
+
+    return StreamBuilder<List<ScanModel>>(
+        stream: scansBloc.scansStream,
         builder: (BuildContext context,AsyncSnapshot<List<ScanModel>> snapshot) {
 
           if ( !snapshot.hasData ){
@@ -26,7 +30,7 @@ class MapaPage extends StatelessWidget {
                 key:  UniqueKey(),
                 background: Container(color: Colors.red,),
                 onDismissed: (direction) {
-                  DBProvider.db.deleteScan(scans[i].id);
+                  scansBloc.borrarScan(scans[i].id);
                 },
                 child: ListTile(
                   leading: Icon(Icons.cloud_queue, color: Theme.of(context).primaryColor,),
