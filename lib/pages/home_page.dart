@@ -4,6 +4,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 
 import 'package:qr_maps/pages/direccion_page.dart';
 import 'package:qr_maps/pages/mapa_page.dart';
+import 'package:qr_maps/providers/db_provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,9 +44,9 @@ class _HomePageState extends State<HomePage> {
     //https://www.youtube.com/watch?v=7gX_mRmCmNE
     //geo:46.9342049662819,13.511148543749965
 
-    var futureString;
+    var futureString = 'https://www.youtube.com/watch?v=7gX_mRmCmNE';
 
-    try{
+    /*try{
       futureString = await BarcodeScanner.scan();
     } catch (e){
       futureString = e.toString();
@@ -53,9 +54,16 @@ class _HomePageState extends State<HomePage> {
 
     print('Future String: ${futureString.rawContent}');
 
+    */
     if ( futureString != null) {
-      print('Tenemos informacion');
+
+      final scan = ScanModel( valor: futureString);
+      DBProvider.db.nuevoScan(scan);
+
+
+
     }
+
 
   }
 

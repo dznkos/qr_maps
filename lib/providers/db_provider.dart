@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:qr_maps/models/scan_model.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'package:qr_maps/models/scan_model.dart';
+export 'package:qr_maps/models/scan_model.dart';
 
 class DBProvider{
 
@@ -43,7 +45,7 @@ class DBProvider{
       }
     );
   }
-
+  // INSERTAR
   nuevoScanRaw (ScanModel nuevoScan) async{
 
     final db = await database;
@@ -53,13 +55,21 @@ class DBProvider{
       " VALUES ( ${nuevoScan.id}, '${nuevoScan.tipo}', '${nuevoScan.valor}' ) "
     );
   }
+  // INSERTAR
+  nuevoScan (ScanModel nuevoScan) async{
+    final db = await database;
+    final res = await db.insert('Scans', nuevoScan.toJson());
+    return res;
+  }
 
+
+  // BUSCAR POR ID
   Future<ScanModel> getScanId (int id) async{
     final db = await database;
     final res = await db.query( 'Scans', where: 'id = ?', whereArgs: [id] );
     return res.isNotEmpty ? ScanModel.fromJson( res.first ) : null;
   }
-
+  // LISTAR TODOS
   Future<List<ScanModel>> getTodosScans() async{
     final db = await database;
     final res = await db.query('Scans');
@@ -68,7 +78,7 @@ class DBProvider{
                            : [];
     return list;
   }
-
+  //BUSCAR POR TIPO
   Future<List<ScanModel>> getScansPorTipo(String tipo) async{
     final db = await database;
     final res = await db.rawQuery("SELECT * FROM Scans WHERE tipo='$tipo'");
@@ -77,6 +87,22 @@ class DBProvider{
                            : [];
     return list;
   }
-
-
+  //ACTUALIZAR
+  Future<int> updateScan( ScanModel nuevoScan) async{
+    final db = await database;
+    final res = await db.update('Scans', nuevoScan.toJson(), where: 'id =?', whereArgs: [nuevoScan.id]);
+    return res;
+  }
+  //ELIMINAR
+  deleteScan (int id) async{
+    final db = await database;
+    final res = await db.delete('Scans', where: 'id = ?', whereArgs: [id]);
+    return res;
+  }
+  //ELIMINAR TODOS
+  deleteAllScan () async{
+    final db = await database;
+    final res = await db.rawDelete('DELETE FROM Scans');
+    return res;
+  }
 }
