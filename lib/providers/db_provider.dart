@@ -36,11 +36,11 @@ class DBProvider{
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute(
-          "CREATE TABLE Scans("
-          " id INTEGER PRIMARY KEY,"
-          " tipo TEXT,"
-          " valor TEXT,"
-          ")"
+          'CREATE TABLE Scans( '
+          'id INTEGER PRIMARY KEY,'
+          'tipo TEXT,'
+          'valor TEXT'
+          ')'
         );
       }
     );
