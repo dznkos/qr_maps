@@ -8,7 +8,7 @@ import 'package:qr_maps/bloc/scans_bloc.dart';
 import 'package:qr_maps/models/scan_model.dart';
 
 import 'package:qr_maps/pages/direccion_page.dart';
-import 'package:qr_maps/pages/mapa_page.dart';
+import 'package:qr_maps/pages/mapas_page.dart';
 
 import 'package:qr_maps/utils/utils.dart' as utils;
 
@@ -44,13 +44,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon( Icons.filter_center_focus ),
-        onPressed: _scanQR,
+        onPressed: () =>_scanQR(context),
         backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
 
-  _scanQR() async {
+  _scanQR(BuildContext context) async {
     //https://www.youtube.com/watch?v=7gX_mRmCmNE
     //geo:46.9342049662819,13.511148543749965
 
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
 
       if ( Platform.isIOS ){
         Future.delayed( Duration( milliseconds: 750), (){
-          utils.abrirScan(scan);
+          utils.abrirScan(context,scan);
         });
       }
 
@@ -88,11 +88,11 @@ class _HomePageState extends State<HomePage> {
   Widget _callPage( int indexPage) {
     switch ( indexPage ) {
 
-      case 0: return MapaPage();
+      case 0: return MapasPage();
       case 1: return DireccionPage();
 
       default:
-        return MapaPage();
+        return MapasPage();
     }
   }
 
