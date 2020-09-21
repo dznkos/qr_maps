@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_maps/bloc/scans_bloc.dart';
 import 'package:qr_maps/models/scan_model.dart';
 
+import 'package:qr_maps/utils/utils.dart' as utils;
 
 class MapaPage extends StatelessWidget {
   @override
@@ -37,6 +38,7 @@ class MapaPage extends StatelessWidget {
                   title: Text(scans[i].valor),
                   subtitle: Text('id: ${scans[i].id}'),
                   trailing: Icon( Icons.keyboard_arrow_right, color: Theme.of(context).primaryColor,),
+                  onTap: () => utils.abrirScan(scans[i])
                 ),
               ),
 

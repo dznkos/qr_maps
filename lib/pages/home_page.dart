@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:barcode_scan/barcode_scan.dart';
@@ -7,6 +9,8 @@ import 'package:qr_maps/models/scan_model.dart';
 
 import 'package:qr_maps/pages/direccion_page.dart';
 import 'package:qr_maps/pages/mapa_page.dart';
+
+import 'package:qr_maps/utils/utils.dart' as utils;
 
 class HomePage extends StatefulWidget {
   @override
@@ -50,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     //https://www.youtube.com/watch?v=7gX_mRmCmNE
     //geo:46.9342049662819,13.511148543749965
 
-    var futureString = 'https://www.youtube.com/watch?v=7gX_mRmCmNE';
+    var futureString = 'https://pub.dev';
 
     /*try{
       futureString = await BarcodeScanner.scan();
@@ -66,6 +70,16 @@ class _HomePageState extends State<HomePage> {
       final scan = ScanModel( valor: futureString);
       scansBloc.agregarScan(scan);
 
+      final scan2 = ScanModel( valor: 'geo:46.9342049662819,13.511148543749965');
+      scansBloc.agregarScan(scan2);
+
+      if ( Platform.isIOS ){
+        Future.delayed( Duration( milliseconds: 750), (){
+          utils.abrirScan(scan);
+        });
+      }
+
+      /*utils.abrirScan(scan);*/
 
     }
 
