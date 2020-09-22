@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
     switch ( indexPage ) {
 
       case 0: return MapasPage();
-      case 1: return DireccionPage();
+      case 1: return DireccionesPage();
 
       default:
         return MapasPage();
