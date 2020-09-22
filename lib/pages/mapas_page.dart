@@ -6,10 +6,13 @@ import 'package:qr_maps/models/scan_model.dart';
 import 'package:qr_maps/utils/utils.dart' as utils;
 
 class MapasPage extends StatelessWidget {
+
+  final scansBloc = new ScansBloc();
+
   @override
   Widget build(BuildContext context) {
 
-    final scansBloc = new ScansBloc();
+    scansBloc.obtenerScans();
 
     return StreamBuilder<List<ScanModel>>(
         stream: scansBloc.scansStream,
